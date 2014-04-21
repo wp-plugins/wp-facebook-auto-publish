@@ -2,7 +2,7 @@
 Contributors: vivacityinfotech.jaipur
 Donate link: http://tinyurl.com/owxtkmt
 Tags: Facebook , Facebook Post, Facebook Wall, Auto Post, Auto Plublish, Facebook Publish, Facebook Auto Post, Facebook Auto Plublish, Post on Facebook, Page on Facebook, Custom Post on Facebook, Auto Custom Post on Facebook 
-Requires at least:3.5
+Requires at least:3.0
 Tested up to:3.9
 Stable tag: 1.0
 License: GPLv2 or later
@@ -20,6 +20,15 @@ You can also customize setting for following features:
 * You can customize the setting for sending a default image if no image is available for your post.
 * You can also set the default image by putting the link of that image.
 
+= Rate Us / Feedback =
+
+Please take the time to let us and others know about your experiences by leaving a review, so that we can improve the plugin for you and other users.
+
+= Want More? =
+
+If You Want more functionality or some modifications, just drop us a line what you want and We will try to add or modify the plugin functions.
+
+If you like the plugin please [Donate here](http://tinyurl.com/owxtkmt). 
 
 == Installation ==
 
@@ -28,8 +37,6 @@ You can also customize setting for following features:
 2. Extract it in the `/wp-content/plugins/` directory
 3. Activate the plugin through the 'Plugins' menu in WordPress
 4. Customize the plugin in the WP2FB Auto Post
-
-
 
 
 Visit our <a href="http://vivacityinfotech.net/blog/wp-facebook-auto-publish/">demo page</a> for more information.
@@ -45,6 +52,7 @@ In WordPress admin panel go to "WP2FB Auto Post", add the facebook app ID and se
 == Screenshots ==
 1. Plugin options will be found at Admin Panel Menus named as WP2FB Auto Post
 2. App ID, Secret ID, Page ID, Authtication, Post type and Default Image setting for WP Facebook Auto Publish
+3. Facebook Post auto posted by plugin
 
 == PHP Version ==
 
