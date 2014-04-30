@@ -3,7 +3,7 @@
  * Plugin Name: WP Facebook Auto Publish
  * Plugin URI: http://www.vivacityinfotech.com/
  * Description: A Simple wordpress plugin to automatically post your wordpress posts and pages on Facebook along with their featured image.
- * Version: 1.0
+ * Version: 1.1
  * Author: Vivacity Infotech Pvt. Ltd.
  * Author URI: http://www.vivacityinfotech.com/
  * License: GPL2
@@ -102,7 +102,7 @@ function wfap_authenticate(){
 		$access_token = $fb->getAccessToken();
 		$user = $fb->getUser();
 		//$adminurl = admin_url( 'admin.php?page=wp-facebook-auto-publish/wp-fap-gui.php'); 
-		$adminurl =  get_site_url();
+		$adminurl =  get_home_url();
 		if($user == 0)
 		{
 		   $params = array( 'scope' => 'publish_actions, email, read_stream, user_interests, user_likes, user_location, user_status, friends_likes',
