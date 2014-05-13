@@ -39,7 +39,7 @@ If you like the plugin please [Donate here](http://tinyurl.com/owxtkmt).
 4. Customize the plugin in the WP2FB Auto Post
 
 
-Visit our <a href="http://vivacityinfotech.net/blog/wp-facebook-auto-publish/">demo page</a> for more information.
+Visit our <a href="http://vivacityinfotech.net/blog/facebook-auto-post-wordpress-plugin/">demo page</a> for more information.
 
 
 == Frequently Asked Questions ==
@@ -67,5 +67,5 @@ PHP 5+ is supported.
 = 1.0 =
 * Stable version.
 
-Visit our <a href="http://vivacityinfotech.net/blog/wp-facebook-auto-publish/">demo page</a> for more information.
+Visit our <a href="http://vivacityinfotech.net/blog/facebook-auto-post-wordpress-plugin/">demo page</a> for more information.
 
