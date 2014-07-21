@@ -9,7 +9,7 @@ $page = get_option('wfap_page_id');
 $default_img = get_option('wfap_default_img');
 if($default_img == 0)
 	echo '<style type="text/css">#default_img_link {display:none;}</style>';
-$default_img_link = get_option('wfab_default_img_link',$wfab_default_img_link);
+$default_img_link = get_option('wfab_default_img_link');
 $post_list = array();
 $post = get_option('wfap_post_type');
 $post_list  = explode(",", $post );
@@ -40,7 +40,7 @@ $post_list  = explode(",", $post );
 					<tr>
 						<td>Page or Profile</td>                    
                         <td><input type="text" name="fb_page_id" id="fb_page_id" value="<?php echo $page; ?>" /> 
-                        	<span class="note">Note: You can use "me" or leave blank for you own profile ID</span>
+                        	<span class="note">Note: You can use "me" or leave blank for your own profile ID</span>
                         </td>
                     </tr>
                     <tr>
@@ -68,5 +68,29 @@ $post_list  = explode(",", $post );
                 <input type="submit" value="Save Changes" id="save_btn" class="button-primary" /><span id="load_gif"><img src="<?php echo $url;?>images/loading_gif.gif" /> Saving Settings ... </span>
             </div>
         </form>
+    </div>
+    
+    <div class="sidebar">
+    
+			<h3 class="hndle"><span>Important Note</span></h3>
+			<div class="inside">
+				<p>According to the new security policy of the Facebook, the App needs to be submitted and verified by Facebook team.</p>
+				<p>Please follow the bellow instructions to submit an app.</p>
+				<ol>
+					<li>A logo must be provided to the App. In order to add a logo, go your Facebook <strong>App->App Details->Icons</strong>.</li>
+					<li>Go to your Facebook <strong>App->Status & Review->Start a Submission</strong>. Give the required "<strong>LOGIN PERMISSIONS</strong>" to the app to be used and accessed by your domain and by our plugin.
+						<p>Your app must have below permissions to use auto post feature</p>
+						<ul>
+							<li>manage_pages</li>
+							<li>publish_actions</li>
+						</ul>
+						<p>You also need to explain the use of the above permissions on Facebook.</p>
+					</li>
+					<li>You must provide a long description of your app. Go to you Facebook <strong>App->App Details->Long Description</strong>. This description must explain a valid reason or purpose to use this app for your domain.
+					<br/><br/> Later all the above settings will be reviewed by the Facebook team with in next 7 business days.</li>
+				</ol>
+							
+			</div>
+			
     </div>
 </div>

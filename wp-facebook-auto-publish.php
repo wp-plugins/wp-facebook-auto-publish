@@ -3,7 +3,7 @@
  * Plugin Name: WP Facebook Auto Publish
  * Plugin URI: http://vivacityinfotech.net
  * Description: A Simple wordpress plugin to automatically post your wordpress posts and pages on Facebook along with their featured image.
- * Version: 1.1
+ * Version: 1.2
  * Author: Vivacity Infotech Pvt. Ltd.
  * Author URI: http://vivacityinfotech.net
  * License: GPL2
