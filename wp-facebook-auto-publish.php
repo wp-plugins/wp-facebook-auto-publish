@@ -3,9 +3,11 @@
  * Plugin Name: WP Facebook Auto Publish
  * Plugin URI: http://vivacityinfotech.net
  * Description: A Simple wordpress plugin to automatically post your wordpress posts and pages on Facebook along with their featured image.
- * Version: 1.2
+ * Version: 1.3
  * Author: Vivacity Infotech Pvt. Ltd.
  * Author URI: http://vivacityinfotech.net
+Text Domain: wp-facebook-auto-publish
+Domain Path: /languages/
  * License: GPL2
 */
 /*
@@ -24,6 +26,24 @@ Copyright 2014  Vivacity InfoTech Pvt. Ltd.  (email : support@vivacityinfotech.c
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
+
+ add_action('init', 'viva_fbautopublish_trans');
+    function viva_fbautopublish_trans()
+   {  
+      
+       load_plugin_textdomain('wp-facebook-auto-publish', FALSE, dirname(plugin_basename(__FILE__)).'/languages/');
+   }
+ 
+ 
+ //add Jquery to settings page
+add_action( 'admin_menu', 'autopublishjquery' );
+function autopublishjquery() {
+    wp_register_script( 'my_autopublishjquery', plugins_url('/js/gettext.js', __FILE__), array('jquery'));
+    wp_enqueue_script( 'my_autopublishjquery' );
+}  
+   
+
+
 include('lib/facebook.php');
 define('WP_POST_REVISIONS', false);
 function wfap_get_access_token()
@@ -52,7 +72,7 @@ add_action( 'publish_post', 'wfap_post_on_facebook' );
 add_action( 'save_post', 'wfap_post_on_facebook' ); 
 
 function wp_fap_on_admin() {
-    add_menu_page( 'WP Fb Auto Publish', 'WP2FB Auto Post', 'manage_options', 'wp-facebook-auto-publish/wp-fap-gui.php', '', plugins_url( 'wp-facebook-auto-publish/images/icon.png' ),99);
+    add_menu_page( __( 'WP Fb Auto Publish', 'wp-facebook-auto-publish' ), __( 'WP2FB Auto Post', 'wp-facebook-auto-publish' ), 'manage_options', 'wp-facebook-auto-publish/wp-fap-gui.php', '', plugins_url( 'wp-facebook-auto-publish/images/icon.png' ),99);
 }
 
 function wfap_save_settings(){
@@ -79,7 +99,7 @@ function wfap_save_settings(){
 		update_option('wfap_default_img',$wfab_default_img);
 		update_option('wfab_default_img_link',$wfab_default_img_link);
 
-		echo " Settings Saved Successfully";
+		echo __( ' Settings Saved Successfully', 'wp-facebook-auto-publish' );
 		die();
 }
 

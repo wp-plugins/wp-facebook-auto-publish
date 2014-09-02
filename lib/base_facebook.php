@@ -16,10 +16,10 @@
  */
 
 if (!function_exists('curl_init')) {
-  throw new Exception('Facebook needs the CURL PHP extension.');
+  throw new Exception( __( 'Facebook needs the CURL PHP extension.', 'wp-facebook-auto-publish' )  );
 }
 if (!function_exists('json_decode')) {
-  throw new Exception('Facebook needs the JSON PHP extension.');
+  throw new Exception( __( 'Facebook needs the JSON PHP extension.', 'wp-facebook-auto-publish' ) );
 }
 
 /**
@@ -59,7 +59,7 @@ class FacebookApiException extends Exception
       // Rest server style
       $msg = $result['error_msg'];
     } else {
-      $msg = 'Unknown Error. Check getResult()';
+      $msg = __( 'Unknown Error. Check', 'wp-facebook-auto-publish' ).' getResult()';
     }
 
     parent::__construct($msg, $code);
@@ -730,7 +730,7 @@ abstract class BaseFacebook
         $this->clearPersistentData('state');
         return $_REQUEST['code'];
     }
-    self::errorLog('CSRF state token does not match one provided.');
+    self::errorLog( __( 'CSRF state token does not match one provided.', 'wp-facebook-auto-publish' ) );
 
     return false;
   }
@@ -997,8 +997,10 @@ abstract class BaseFacebook
     $errno = curl_errno($ch);
     // CURLE_SSL_CACERT || CURLE_SSL_CACERT_BADFILE
     if ($errno == 60 || $errno == 77) {
-      self::errorLog('Invalid or no certificate authority found, '.
-                     'using bundled information');
+    	
+    	
+      self::errorLog( __( 'Invalid or no certificate authority found', 'wp-facebook-auto-publish' ).', '.
+                     __( 'using bundled information', 'wp-facebook-auto-publish' ) );
       curl_setopt($ch, CURLOPT_CAINFO,
                   dirname(__FILE__) . DIRECTORY_SEPARATOR . 'fb_ca_chain_bundle.crt');
       $result = curl_exec($ch);
@@ -1048,7 +1050,7 @@ abstract class BaseFacebook
   protected function parseSignedRequest($signed_request) {
 
     if (!$signed_request || strpos($signed_request, '.') === false) {
-        self::errorLog('Signed request was invalid!');
+        self::errorLog( __( 'Signed request was invalid!', 'wp-facebook-auto-publish' ) );
         return null;
     }
 
@@ -1062,7 +1064,7 @@ abstract class BaseFacebook
         || strtoupper($data['algorithm']) !==  self::SIGNED_REQUEST_ALGORITHM
     ) {
       self::errorLog(
-        'Unknown algorithm. Expected ' . self::SIGNED_REQUEST_ALGORITHM);
+        __( 'Unknown algorithm. Expected', 'wp-facebook-auto-publish' ).' ' . self::SIGNED_REQUEST_ALGORITHM);
       return null;
     }
 
@@ -1071,7 +1073,7 @@ abstract class BaseFacebook
                               $this->getAppSecret(), $raw = true);
 
     if (strlen($expected_sig) !== strlen($sig)) {
-      self::errorLog('Bad Signed JSON signature!');
+      self::errorLog( __( 'Bad Signed JSON signature!', 'wp-facebook-auto-publish' ));
       return null;
     }
 
@@ -1083,7 +1085,7 @@ abstract class BaseFacebook
     if ($result == 0) {
       return $data;
     } else {
-      self::errorLog('Bad Signed JSON signature!');
+      self::errorLog( __( 'Bad Signed JSON signature!', 'wp-facebook-auto-publish' ));
       return null;
     }
   }
@@ -1346,9 +1348,9 @@ abstract class BaseFacebook
         // REST server errors are just Exceptions
       case 'Exception':
         $message = $e->getMessage();
-        if ((strpos($message, 'Error validating access token') !== false) ||
-            (strpos($message, 'Invalid OAuth access token') !== false) ||
-            (strpos($message, 'An active access token must be used') !== false)
+        if ((strpos($message, __( 'Error validating access token', 'wp-facebook-auto-publish' )) !== false) ||
+            (strpos($message, __( 'Invalid OAuth access token', 'wp-facebook-auto-publish' )) !== false) ||
+            (strpos($message, __( 'An active access token must be used', 'wp-facebook-auto-publish' )) !== false)
         ) {
           $this->destroySession();
         }
@@ -1425,9 +1427,9 @@ abstract class BaseFacebook
       } else {
         // @codeCoverageIgnoreStart
         self::errorLog(
-          'There exists a cookie that we wanted to clear that we couldn\'t '.
-          'clear because headers was already sent. Make sure to do the first '.
-          'API call before outputing anything.'
+          __( 'There exists a cookie that we wanted to clear that we couldn\'t', 'wp-facebook-auto-publish' ).' '.
+          __( 'clear because headers was already sent. Make sure to do the first', 'wp-facebook-auto-publish' ).' '.
+          __( 'API call before outputing anything.', 'wp-facebook-auto-publish' )
         );
         // @codeCoverageIgnoreEnd
       }

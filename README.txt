@@ -4,7 +4,7 @@ Donate link: http://tinyurl.com/owxtkmt
 Tags: Facebook , Facebook Post, Facebook Wall, Auto Post, Auto Plublish, Facebook Publish, Facebook Auto Post, Facebook Auto Plublish, Post on Facebook, Page on Facebook, Custom Post on Facebook, Auto Custom Post on Facebook 
 Requires at least:3.0
 Tested up to:3.9
-Stable tag: 1.1
+Stable tag: 1.3
 License: GPLv2 or later
 
 == Description ==
@@ -32,7 +32,6 @@ If you like the plugin please [Donate here](http://tinyurl.com/owxtkmt).
 
 == Installation ==
 
-
 1. Download the WP Facebook Auto Publish Plugin.
 2. Extract it in the `/wp-content/plugins/` directory
 3. Activate the plugin through the 'Plugins' menu in WordPress
@@ -58,9 +57,15 @@ In WordPress admin panel go to "WP2FB Auto Post", add the facebook app ID and se
 
 PHP 5+ is supported.
 
-
 == Changelog ==
 
+= 1.3 =
+* Added a pot file for language translation support.
+* Added po/mo files for Chinese(China - zh_CN) and Serbian(sr_RS) language translation support.
+
+= 1.2 =
+ * bugs resolved.
+ 
 = 1.1 =
 * Home URL bug is resolved.
 
