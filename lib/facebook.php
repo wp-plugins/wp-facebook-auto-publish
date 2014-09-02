@@ -230,11 +230,11 @@ class Facebook extends BaseFacebook
 
       self::errorLog(
 
-        'Shared session ID cookie could not be set! You must ensure you '.
+        _e( 'Shared session ID cookie could not be set! You must ensure you', 'wp-facebook-auto-publish' ).' '.
 
-        'create the Facebook instance before headers have been sent. This '.
+        _e( 'create the Facebook instance before headers have been sent. This', 'wp-facebook-auto-publish' ).' '.
 
-        'will cause authentication issues after the first request.'
+        _e( 'will cause authentication issues after the first request.', 'wp-facebook-auto-publish' )
 
       );
 
@@ -274,7 +274,7 @@ class Facebook extends BaseFacebook
 
     if (!in_array($key, self::$kSupportedKeys)) {
 
-      self::errorLog('Unsupported key passed to setPersistentData.');
+      self::errorLog( __( 'Unsupported key passed to setPersistentData.', 'wp-facebook-auto-publish' ) );
 
       return;
 
@@ -304,7 +304,7 @@ class Facebook extends BaseFacebook
 
     if (!in_array($key, self::$kSupportedKeys)) {
 
-      self::errorLog('Unsupported key passed to getPersistentData.');
+      self::errorLog( __( 'Unsupported key passed to getPersistentData.', 'wp-facebook-auto-publish' ) );
 
       return $default;
 
@@ -336,7 +336,7 @@ class Facebook extends BaseFacebook
 
     if (!in_array($key, self::$kSupportedKeys)) {
 
-      self::errorLog('Unsupported key passed to clearPersistentData.');
+      self::errorLog( __( 'Unsupported key passed to clearPersistentData.', 'wp-facebook-auto-publish' ) );
 
       return;
 
