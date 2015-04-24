@@ -3,7 +3,7 @@ Contributors: vivacityinfotech.jaipur
 Donate link: http://tinyurl.com/owxtkmt
 Tags: Facebook , Facebook Post, Facebook Wall, Auto Post, Auto Plublish, Facebook Publish, Facebook Auto Post, Facebook Auto Plublish, Post on Facebook, Page on Facebook, Custom Post on Facebook, Auto Custom Post on Facebook 
 Requires at least:3.0
-Tested up to:3.9
+Tested up to:4.2
 Stable tag: 1.3
 License: GPLv2 or later
 

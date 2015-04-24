@@ -6,6 +6,7 @@
  * Version: 1.3
  * Author: Vivacity Infotech Pvt. Ltd.
  * Author URI: http://vivacityinfotech.net
+ * Author Email: support@vivacityinfotech.net
 Text Domain: wp-facebook-auto-publish
 Domain Path: /languages/
  * License: GPL2
