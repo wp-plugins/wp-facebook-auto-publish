@@ -4,7 +4,7 @@ Donate link: http://tinyurl.com/owxtkmt
 Tags: Facebook , Facebook Post, Facebook Wall, Auto Post, Auto Plublish, Facebook Publish, Facebook Auto Post, Facebook Auto Plublish, Post on Facebook, Page on Facebook, Custom Post on Facebook, Auto Custom Post on Facebook 
 Requires at least:3.0
 Tested up to:4.2
-Stable tag: 1.3
+Stable tag: 1.4
 License: GPLv2 or later
 
 == Description ==
@@ -58,6 +58,9 @@ In WordPress admin panel go to "WP2FB Auto Post", add the facebook app ID and se
 PHP 5+ is supported.
 
 == Changelog ==
+= 1.4 =
+* Conflict removed with Ecwid plugin.(removing request containing "code" parameter in the query for every page.)
+
 
 = 1.3 =
 * Added a pot file for language translation support.
