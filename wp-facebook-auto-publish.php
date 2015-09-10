@@ -3,16 +3,16 @@
  * Plugin Name: WP Facebook Auto Publish
  * Plugin URI: http://vivacityinfotech.net
  * Description: A Simple wordpress plugin to automatically post your wordpress posts and pages on Facebook along with their featured image.
- * Version: 1.3
+ * Version: 1.5
  * Author: Vivacity Infotech Pvt. Ltd.
  * Author URI: http://vivacityinfotech.net
- * Author Email: support@vivacityinfotech.net
-Text Domain: wp-facebook-auto-publish
-Domain Path: /languages/
+ * Author Email: vivacityinfotech.net/support
+	Text Domain: wp-facebook-auto-publish
+	Domain Path: /languages/
  * License: GPL2
 */
 /*
-Copyright 2014  Vivacity InfoTech Pvt. Ltd.  (email : support@vivacityinfotech.com)
+Copyright 2014  Vivacity InfoTech Pvt. Ltd. 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as 
     published by the Free Software Foundation.
@@ -27,40 +27,51 @@ Copyright 2014  Vivacity InfoTech Pvt. Ltd.  (email : support@vivacityinfotech.c
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
-
  add_action('init', 'viva_fbautopublish_trans');
-    function viva_fbautopublish_trans()
-   {  
+    function viva_fbautopublish_trans(){  
       
        load_plugin_textdomain('wp-facebook-auto-publish', FALSE, dirname(plugin_basename(__FILE__)).'/languages/');
-   }
- 
- 
+        }
  //add Jquery to settings page
 add_action( 'admin_menu', 'autopublishjquery' );
 function autopublishjquery() {
     wp_register_script( 'my_autopublishjquery', plugins_url('/js/gettext.js', __FILE__), array('jquery'));
     wp_enqueue_script( 'my_autopublishjquery' );
 }  
-   
-
-
 include('lib/facebook.php');
 define('WP_POST_REVISIONS', false);
 function wfap_get_access_token()
 {
+		
 	if(isset($_REQUEST['code']))
 	{	
-		$code=$_REQUEST['code'];
+ $code= $_REQUEST['code'];
+	$id = get_option('wfap_app_id');
+			$sec = get_option('wfap_sec_id');
 		$page_url = get_site_url();
-	$auth_url='https://graph.facebook.com/oauth/access_token?client_id=512993528731249&client_secret=d9ab9699d107a5c15971bb14e1c684f6&redirect_uri='.urlencode($page_url).'&code='.$code;	
-		$accesscode = file_get_contents($auth_url);
-		$allval = array(); $token = array();
-		$allval =  explode("=",$accesscode );
+	$auth_url='https://graph.facebook.com/oauth/access_token?client_id='.$id.'&client_secret='.$sec.'&redirect_uri='.$page_url.'&code='.$code;	
+	//echo $auth_url;exit;
+		//$accesscode = file_get_contents($auth_url);
+	 
+	$curl_handle=curl_init();
+curl_setopt($curl_handle, CURLOPT_URL,$auth_url);
+curl_setopt($curl_handle, CURLOPT_CONNECTTIMEOUT, 2);
+curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($curl_handle, CURLOPT_USERAGENT, 'fb_auto');
+$query = curl_exec($curl_handle);
+curl_close($curl_handle);
+
+	  $allval = array(); 
+	  $token = array();
+		$allval =  explode("=",$query );
 		$token = explode("&", $allval[1]);
-		//echo $accesscode; exit;
+		$message ="Thank you for authenticate";
+		if($token !='')
+		{
 		update_option('wfap_user_tkn',$token[0]);
-		$location = admin_url( 'admin.php?page=wp-facebook-auto-publish/wp-fap-gui.php'); 
+		}
+		//echo $query;exit; 
+		$location = admin_url( 'admin.php?page=wp-facebook-auto-publish/wp-fap-gui.php&msg='.$message); 
 		wp_redirect( $location);
 		exit;
 	}
@@ -75,7 +86,6 @@ add_action( 'save_post', 'wfap_post_on_facebook' );
 function wp_fap_on_admin() {
     add_menu_page( __( 'WP Fb Auto Publish', 'wp-facebook-auto-publish' ), __( 'WP2FB Auto Post', 'wp-facebook-auto-publish' ), 'manage_options', 'wp-facebook-auto-publish/wp-fap-gui.php', '', plugins_url( 'wp-facebook-auto-publish/images/icon.png' ),99);
 }
-
 function wfap_save_settings(){
 		$wfab_app_id = $_REQUEST['app_id'];
 		$wfab_sec_id = $_REQUEST['sec_id'];
@@ -103,17 +113,15 @@ function wfap_save_settings(){
 		echo __( ' Settings Saved Successfully', 'wp-facebook-auto-publish' );
 		die();
 }
-
 function wfap_authenticate(){
 
 		Facebook::$CURL_OPTS[CURLOPT_SSL_VERIFYPEER] = false;
 		Facebook::$CURL_OPTS[CURLOPT_SSL_VERIFYHOST] = 2;
 
 		$id =  $_REQUEST['app_id'];
-		$sec = $_REQUEST['sec_id'];
+		$sec =$_REQUEST['sec_id'];
 
-		// 512993528731249
-		// d9ab9699d107a5c15971bb14e1c684f6
+		
 		$fb_config = array(
 				'appId'  => $id,
 				'secret' => $sec,
@@ -126,9 +134,7 @@ function wfap_authenticate(){
 		$adminurl =  get_home_url();
 		if($user == 0)
 		{
-		   $params = array( 'scope' => 'publish_actions, email, read_stream, user_interests, user_likes, user_location, user_status, friends_likes',
-							'redirect_uri'=>$adminurl);
-		   
+		   $params = array( 'scope' => 'publish_actions, email, read_stream, user_interests, user_likes, user_location, user_status','redirect_uri'=>$adminurl);
 			echo $fbook_login_url = $fb->getLoginUrl($params);
 			$access_token = $fb->getAccessToken();
 			$fb->setAccessToken($access_token);
@@ -143,12 +149,22 @@ function wfap_authenticate(){
 
 		}
 }
-
 function wfap_post_on_facebook($post_id){
+	
 		$hook =  current_filter();
 		$post_status = get_post_status( $post_id );
 		if( $post_status == 'inherit' || $post_status == 'publish')
 		{	//echo "checkpoint 1 <br/>";
+	$post_id = get_the_ID();
+	$facebook_auto = get_post_meta($post_id, "facebook_auto", true);
+ if($facebook_auto =='')
+ {
+$facebook_auto ='yes'; 	
+ 	}
+if($facebook_auto != 'yes')
+{
+return $post_id; 
+}
 			Facebook::$CURL_OPTS[CURLOPT_SSL_VERIFYPEER] = false;
 			Facebook::$CURL_OPTS[CURLOPT_SSL_VERIFYHOST] = 2;
 			
@@ -158,7 +174,7 @@ function wfap_post_on_facebook($post_id){
 			$post_types = get_option('wfap_post_type');
 			$user_tkn = get_option('wfap_user_tkn');
 			$default_img = get_option('wfap_default_img');
-			$default_img_link = get_option('wfab_default_img_link');
+			$default_img_link = get_option('wfab_default_img_link');	
 			if(empty($page))
 				$page ='me';
 			// check if the authentication is done and the user token is set.
@@ -168,9 +184,6 @@ function wfap_post_on_facebook($post_id){
 				$check = wfap_check_post_type( $post_id, $post_types, $hook );
 					if( $check )
 					{	
-						//echo "going to fb  <br/>"; 
-						// 512993528731249
-						// d9ab9699d107a5c15971bb14e1c684f6
 						$fb_config = array(
 								'appId'  => $id,
 								'secret' => $sec,
@@ -181,6 +194,7 @@ function wfap_post_on_facebook($post_id){
 						$user = $fb->getUser();
 				
 						$access_token = $fb->getAccessToken();
+				
 						$fb->setAccessToken($access_token);
 							$title = get_the_title($post_id);
 							$post = get_post( $post_id );
@@ -191,7 +205,7 @@ function wfap_post_on_facebook($post_id){
 							$params = array(
 									"access_token"=> $user_tkn,
 									"message" => $title,
-									"name" => $title,
+									"name" => $title, 
 									"caption" => $caption,
 									"description" => $decription
 							);
@@ -230,11 +244,9 @@ function wfap_post_on_facebook($post_id){
 						$ret_obj = $fb->api('/'.$page.'/feed', 'POST', $params);
 						//echo "gone FB <br/> "; 
 					}
-			}
-		}
-//exit;
+			}	
+	} 
 }
-
 function wfap_check_post_type( $post_id, $post_types, $hook ){
 
 		$exist = false;
@@ -259,4 +271,38 @@ function wfap_check_post_type( $post_id, $post_types, $hook ){
 		}
 		return $exist;
 }
-?>
+function custom_meta_box_markup($object)
+{
+	wp_nonce_field(basename(__FILE__), "meta-box-nonce");
+	 $post_id = get_the_ID();
+	$facebook_auto = get_post_meta($post_id, "facebook_auto", true);?>
+	<input name="pageid" type="hidden" value="<?php echo  $post_id; ?>">
+		Facebook Autopost on update	<br>
+	<input type="radio" <?php if($facebook_auto=='yes'){ ?> checked ="checked" <?php } ?>] name="autoupdate" id="autoupdate1" value="yes"> Yes 
+	<input type="radio" <?php if($facebook_auto=='no'){ ?> checked ="checked" <?php } ?>] name="autoupdate" id="autoupdate2" value="no">No<?php }
+function add_custom_meta_box()
+{
+    add_meta_box("header-meta-box", "Facebook auto post", "custom_meta_box_markup", "page", "side", "high", null);
+  add_meta_box("header-meta-box", "Facebook auto post", "custom_meta_box_markup", "post", "side", "high", null);
+}
+ 
+add_action("add_meta_boxes", "add_custom_meta_box");
+
+function save_custom_meta_box($post_id, $post, $update)
+{
+    if (!isset($_POST["meta-box-nonce"]) || !wp_verify_nonce($_POST["meta-box-nonce"], basename(__FILE__)))
+        return $post_id;
+    if(!current_user_can("edit_post", $post_id))
+        return $post_id;
+    if(defined("DOING_AUTOSAVE") && DOING_AUTOSAVE)
+        return $post_id;
+    $pageid= "";
+    $imagename = "";
+ $autoupdate =$_REQUEST['autoupdate'];
+    if(isset($_POST["pageid"]))
+    {
+        $pageid = $_POST["pageid"];
+    }  
+    update_post_meta($post_id, "facebook_auto",  $autoupdate);
+}
+add_action("save_post", "save_custom_meta_box", 10, 3);?>

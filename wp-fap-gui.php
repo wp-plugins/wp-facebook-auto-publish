@@ -142,11 +142,18 @@ jQuery("#wfap_authenticate").click(function(){
 });
 </script>
 <div id="wrapper">
+
 <span id="status_msg" class=""><?php _e( 'Setting saved', 'wp-facebook-auto-publish' ) ?></span>
+
 	<div class="container">
 		<form action="" method="post">
 	        <div class="fb_form">
 	           <h2><?php _e( 'WP Facebook Auto Publish', 'wp-facebook-auto-publish' ) ?></h2>
+	           <?php if(isset($_REQUEST['msg']) !='')
+{?>
+	<div class="message">Thank you for authenticate.</div>
+	<?php }
+	?>
                 <table>
                     <tr>
 						<td><?php _e( 'Facebook App ID', 'wp-facebook-auto-publish' ) ?><span class="create_app"><?php _e( 'To create facebook app click', 'wp-facebook-auto-publish' ) ?> <a href="https://developers.facebook.com/apps/"> <?php _e( 'here', 'wp-facebook-auto-publish' ) ?></a></span></td>                    

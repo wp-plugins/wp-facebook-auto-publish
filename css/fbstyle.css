@@ -98,7 +98,10 @@
 .sidebar ul li {
 	margin-bottom: 2px;
 }
-
+.message {
+  color: #AC2600;
+  font-size: 18px;
+}
 @media only screen and (max-width : 800px) {
 	.sidebar { margin: 10px 0; width: 98%;	}
 }
